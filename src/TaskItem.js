@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const TaskItem = ({ task, toggleComplete, deleteTask, onEdit }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -7,7 +8,11 @@ const TaskItem = ({ task, toggleComplete, deleteTask, onEdit }) => {
   const [editedCategory, setEditedCategory] = useState(task.category);
 
   const handleEdit = () => {
-    onEdit(task.id, editedName, editedDueDate, editedCategory);
+    if (typeof onEdit === 'function') {
+      onEdit(task.id, editedName, editedDueDate, editedCategory);
+    } else {
+      console.error('onEdit is not a function');
+    }
     setIsEditing(false);
   };
 
@@ -49,6 +54,23 @@ const TaskItem = ({ task, toggleComplete, deleteTask, onEdit }) => {
       )}
     </div>
   );
+};
+
+TaskItem.propTypes = {
+  task: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    dueDate: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+  }).isRequired,
+  toggleComplete: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
+  onEdit: PropTypes.func,
+};
+
+TaskItem.defaultProps = {
+  onEdit: () => {}, // Default no-op function
 };
 
 export default TaskItem;

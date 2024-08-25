@@ -52,7 +52,7 @@ button {
 }
 
 button {
-  background-color: #28a745;
+  background-color: #000000;
   color: white;
   cursor: pointer;
   border: none;
@@ -60,7 +60,7 @@ button {
 }
 
 button:hover {
-  background-color: #218838;
+  background-color: #384753;
 }
 
 /* Filter Buttons */
