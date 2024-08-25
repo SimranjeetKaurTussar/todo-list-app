@@ -1,24 +1,88 @@
 /* src/App.css */
+
+/* Container for the App */
 .App {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   text-align: center;
-  margin: 2rem;
 }
 
+/* Form Style */
 form {
   margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between form elements */
 }
 
-input[type="text"] {
-  padding: 0.5rem;
-  width: 200px;
-  margin-right: 0.5rem;
+input[type="text"],
+input[type="date"],
+input[type="text"],
+button {
+  padding: 0.75rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+/* Task Item Styling */
+.TaskItem {
+  display: flex;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  gap: 10px; /* Space between elements in task items */
+}
+
+.TaskItem:hover {
+  background-color: #e9ecef;
+}
+
+.TaskEditForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between elements in edit form */
 }
 
 button {
-  padding: 0.5rem 1rem;
+  background-color: #28a745;
+  color: white;
   cursor: pointer;
+  border: none;
+  transition: background-color 0.3s;
 }
 
-span {
-  margin-right: 1rem;
+button:hover {
+  background-color: #218838;
+}
+
+/* Filter Buttons */
+.TaskFilter {
+  margin-bottom: 2rem;
+}
+
+.TaskFilter button {
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.TaskFilter button:hover {
+  background-color: #0056b3;
+}
+
+.TaskFilter button.active {
+  background-color: #0056b3;
 }
