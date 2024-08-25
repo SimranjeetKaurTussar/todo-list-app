@@ -75,7 +75,7 @@ const App = () => {
         editTaskId={editTaskId}
         tasks={tasks}
       />
-      <TaskFilter setFilter={setFilter} />
+      <TaskFilter setFilter={setFilter} filter={filter} />
       <TaskList
         tasks={filteredTasks}
         toggleComplete={toggleComplete}

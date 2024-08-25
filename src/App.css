@@ -57,16 +57,16 @@ input[type="text"]::placeholder {
   color: #aaa;
 }
 
-button {
-  background-color: #2e5637;
+button{
+  background-color: #007bff;
   color: white;
   cursor: pointer;
   border: none;
   transition: background-color 0.3s;
 }
 
-button:hover {
-  background-color: #121b14;
+.btns button:hover {
+  background-color: #7ebafa;
 }
 
 /* Task List and Items */
@@ -98,17 +98,19 @@ button:hover {
 
 .TaskItem span.completed {
   text-decoration: line-through;
-  color: #aaa;
+  color: #66050e;
 }
 
 .TaskItem button {
-  background-color: #dc3545;
+  background-color: #66050e;
   color: white;
   padding: 0.5rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  padding: 10px 14px;
+  margin-right: 0.5rem;
 }
 
 .TaskItem button:hover {
@@ -125,18 +127,9 @@ button:hover {
   margin-right: 0.5rem;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
-}
-
-.TaskFilter button:hover {
-  background-color: #0056b3;
-}
-
-.TaskFilter button.active {
-  background-color: #0056b3;
 }
 
 .btns {
@@ -144,4 +137,26 @@ button:hover {
   display: flex;
   gap: 10px;
   /* Space between buttons */
+}
+
+/* src/TaskFilter.css */
+.btns {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+
+.btns button {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  color: #333;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btns button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
 }
