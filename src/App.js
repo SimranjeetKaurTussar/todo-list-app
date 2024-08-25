@@ -6,34 +6,42 @@ import TaskFilter from './TaskFilter';
 import './App.css';
 
 const App = () => {
-  // Initialize the state with tasks from localStorage or an empty array if none exist
+  // State to manage tasks, initialized from localStorage
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem('tasks');
     return savedTasks ? JSON.parse(savedTasks) : [];
   });
 
-  // State to manage the current filter (all, completed, incomplete)
+  // State to manage the filter
   const [filter, setFilter] = useState('all');
 
-  // Save tasks to localStorage whenever the tasks state changes
+  // State to manage the task currently being edited
+  const [editTaskId, setEditTaskId] = useState(null);
+
+  // Save tasks to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
-  // Function to add a new task
+  // Add a new task
   const addTask = (name, dueDate, category) => {
     const newTask = {
-      id: Date.now(), // Unique ID for each task
+      id: Date.now(),
       name,
-      completed: false, // Task is initially not completed
+      completed: false,
       dueDate,
       category,
     };
-    // Add the new task to the existing list of tasks
     setTasks([...tasks, newTask]);
   };
 
-  // Function to toggle the completion status of a task
+  // Edit an existing task
+  const editTask = (id, updatedTask) => {
+    setTasks(tasks.map((task) => (task.id === id ? updatedTask : task)));
+    setEditTaskId(null); // Reset the editing state
+  };
+
+  // Toggle completion status
   const toggleComplete = (id) => {
     setTasks(
       tasks.map((task) =>
@@ -42,12 +50,12 @@ const App = () => {
     );
   };
 
-  // Function to delete a task by its ID
+  // Delete a task
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  // Filter tasks based on the selected filter option (all, completed, incomplete)
+  // Filter tasks based on the selected filter
   const filteredTasks = tasks.filter((task) => {
     if (filter === 'completed') {
       return task.completed;
@@ -55,15 +63,25 @@ const App = () => {
     if (filter === 'incomplete') {
       return !task.completed;
     }
-    return true; 
+    return true;
   });
 
   return (
     <div className="App">
       <h1>To-Do List</h1>
-      <TaskForm addTask={addTask} />
+      <TaskForm
+        addTask={addTask}
+        editTask={editTask}
+        editTaskId={editTaskId}
+        tasks={tasks}
+      />
       <TaskFilter setFilter={setFilter} />
-      <TaskList tasks={filteredTasks} toggleComplete={toggleComplete} deleteTask={deleteTask} />
+      <TaskList
+        tasks={filteredTasks}
+        toggleComplete={toggleComplete}
+        deleteTask={deleteTask}
+        setEditTaskId={setEditTaskId}
+      />
     </div>
   );
 };

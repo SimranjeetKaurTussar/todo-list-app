@@ -1,6 +1,7 @@
+// src/TaskItem.js
 import React from 'react';
 
-const TaskItem = ({ task, toggleComplete, deleteTask }) => {
+const TaskItem = ({ task, toggleComplete, deleteTask, setEditTaskId }) => {
   return (
     <div className="TaskItem">
       <input
@@ -11,6 +12,7 @@ const TaskItem = ({ task, toggleComplete, deleteTask }) => {
       <span className={task.completed ? 'completed' : ''}>
         {task.name} - {task.dueDate} - {task.category}
       </span>
+      <button onClick={() => setEditTaskId(task.id)}>Edit</button>
       <button onClick={() => deleteTask(task.id)}>Delete</button>
     </div>
   );
