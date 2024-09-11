@@ -1,11 +1,16 @@
-// src/App.js
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import TaskForm from './TaskForm';
 import TaskList from './TaskList';
 import TaskFilter from './TaskFilter';
 import './App.css';
+import Login from './components/Login';
+import Register from './components/Register';
+import TodoList from './components/TodoList';
 
 const App = () => {
+  const navigate = useNavigate();
+
   // State to manage tasks, initialized from localStorage
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem('tasks');
@@ -66,23 +71,36 @@ const App = () => {
     return true;
   });
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
   return (
-    <div className="App">
-      <h1>To-Do List</h1>
-      <TaskForm
-        addTask={addTask}
-        editTask={editTask}
-        editTaskId={editTaskId}
-        tasks={tasks}
-      />
-      <TaskFilter setFilter={setFilter} filter={filter} />
-      <TaskList
-        tasks={filteredTasks}
-        toggleComplete={toggleComplete}
-        deleteTask={deleteTask}
-        setEditTaskId={setEditTaskId}
-      />
-    </div>
+    <>
+      <div className="App">
+        <h1>To-Do List</h1>
+        <TaskForm
+          addTask={addTask}
+          editTask={editTask}
+          editTaskId={editTaskId}
+          tasks={tasks}
+        />
+        <TaskFilter setFilter={setFilter} filter={filter} />
+        <TaskList
+          tasks={filteredTasks}
+          toggleComplete={toggleComplete}
+          deleteTask={deleteTask}
+          setEditTaskId={setEditTaskId}
+        />
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/tasks" element={<TodoList />} />
+      </Routes>
+    </>
   );
 };
 
