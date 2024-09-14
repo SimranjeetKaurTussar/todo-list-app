@@ -3,6 +3,11 @@ import React from 'react';
 import TaskItem from './TaskItem';
 
 const TaskList = ({ tasks, toggleComplete, deleteTask, setEditTaskId }) => {
+  if (!tasks) {
+    // Prevents errors if `tasks` is undefined
+    return <p>No tasks available.</p>;
+  }
+
   return (
     <div className="TaskList">
       {tasks.map((task) => (

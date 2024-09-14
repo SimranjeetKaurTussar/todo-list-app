@@ -1,16 +1,13 @@
+// src/App.js
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
 import TaskForm from './TaskForm';
 import TaskList from './TaskList';
 import TaskFilter from './TaskFilter';
-import './App.css';
 import Login from './components/Login';
 import Register from './components/Register';
-import TodoList from './components/TodoList';
+import './App.css';
 
 const App = () => {
-  const navigate = useNavigate();
-
   // State to manage tasks, initialized from localStorage
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem('tasks');
@@ -22,6 +19,15 @@ const App = () => {
 
   // State to manage the task currently being edited
   const [editTaskId, setEditTaskId] = useState(null);
+
+  // State to manage user authentication
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // State to manage registration
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  // State to store user credentials
+  const [userCredentials, setUserCredentials] = useState({ email: '', password: '' });
 
   // Save tasks to localStorage whenever they change
   useEffect(() => {
@@ -43,7 +49,7 @@ const App = () => {
   // Edit an existing task
   const editTask = (id, updatedTask) => {
     setTasks(tasks.map((task) => (task.id === id ? updatedTask : task)));
-    setEditTaskId(null); // Reset the editing state
+    setEditTaskId(null);
   };
 
   // Toggle completion status
@@ -71,36 +77,57 @@ const App = () => {
     return true;
   });
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
+  // Handle login
+  const handleLogin = (email, password) => {
+    if (email === userCredentials.email && password === userCredentials.password) {
+      setIsAuthenticated(true);
+    } else {
+      alert('Invalid credentials');
+    }
   };
 
+  // Handle logout
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
+
+  // Handle registration
+  const handleRegister = (email, password) => {
+    setUserCredentials({ email, password });
+    setIsRegistered(true);
+  };
+
+  // Show Register page if user is not registered yet
+  if (!isRegistered) {
+    return <Register onRegister={handleRegister} />;
+  }
+
+  // Show Login page if user is not logged in
+  if (!isAuthenticated) {
+    return <Login onLogin={handleLogin} />;
+  }
+
+  // Render To-Do List if authenticated
   return (
-    <>
-      <div className="App">
-        <h1>To-Do List</h1>
-        <TaskForm
-          addTask={addTask}
-          editTask={editTask}
-          editTaskId={editTaskId}
-          tasks={tasks}
-        />
-        <TaskFilter setFilter={setFilter} filter={filter} />
-        <TaskList
-          tasks={filteredTasks}
-          toggleComplete={toggleComplete}
-          deleteTask={deleteTask}
-          setEditTaskId={setEditTaskId}
-        />
-        <button onClick={handleLogout}>Logout</button>
-      </div>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/tasks" element={<TodoList />} />
-      </Routes>
-    </>
+    <div className="App">
+      <h1>To-Do List</h1>
+      <TaskForm
+        addTask={addTask}
+        editTask={editTask}
+        editTaskId={editTaskId}
+        tasks={tasks}
+      />
+      <TaskFilter setFilter={setFilter} filter={filter} />
+      <TaskList
+        tasks={filteredTasks}
+        toggleComplete={toggleComplete}
+        deleteTask={deleteTask}
+        setEditTaskId={setEditTaskId}
+      />
+      <button className="logout-btn" onClick={handleLogout}>
+        Logout
+      </button>
+    </div>
   );
 };
 
