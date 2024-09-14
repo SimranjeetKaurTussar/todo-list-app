@@ -1,15 +1,22 @@
 // src/components/Register.js
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Register = ({ onRegister }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem('userEmail', email.trim()); // Ensure trimming
-    localStorage.setItem('userPassword', password.trim()); // Ensure trimming
-    onRegister(); // Notify App.js that registration is complete
+    const emailLowerCase = email.trim().toLowerCase();
+    const passwordTrimmed = password.trim();
+
+    localStorage.setItem('userEmail', emailLowerCase);
+    localStorage.setItem('userPassword', passwordTrimmed);
+
+    onRegister();
   };
 
   return (
@@ -28,13 +35,20 @@ const Register = ({ onRegister }) => {
         </label>
         <label>
           Password:
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="password-container">
+            <input
+              type={passwordVisible ? 'text' : 'password'}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <FontAwesomeIcon
+              icon={passwordVisible ? faEyeSlash : faEye}
+              className="password-icon"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            />
+          </div>
         </label>
         <button type="submit">Register</button>
       </form>

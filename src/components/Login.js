@@ -1,22 +1,22 @@
 // src/components/Login.js
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const savedEmail = localStorage.getItem('userEmail')?.trim();
+    const savedEmail = localStorage.getItem('userEmail')?.trim().toLowerCase();
     const savedPassword = localStorage.getItem('userPassword')?.trim();
 
-    console.log('Saved Email:', savedEmail);
-    console.log('Saved Password:', savedPassword);
-    console.log('Input Email:', email.trim());
-    console.log('Input Password:', password.trim());
+    const emailLowerCase = email.trim().toLowerCase();
 
-    if (email.trim() === savedEmail && password.trim() === savedPassword) {
-      onLogin(); // Call the login handler from App.js
+    if (emailLowerCase === savedEmail && password.trim() === savedPassword) {
+      onLogin();
     } else {
       alert('Invalid credentials, please try again!');
     }
@@ -38,13 +38,20 @@ const Login = ({ onLogin }) => {
         </label>
         <label>
           Password:
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="password-container">
+            <input
+              type={passwordVisible ? 'text' : 'password'}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <FontAwesomeIcon
+              icon={passwordVisible ? faEyeSlash : faEye}
+              className="password-icon"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            />
+          </div>
         </label>
         <button type="submit">Login</button>
       </form>

@@ -237,3 +237,23 @@ button{
 .login-container button:hover {
   background-color: #0056b3;
 }
+
+/* Common styles for both login and registration eye icon */
+
+.password-container {
+  position: relative;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px; /* Space for the icon */
+}
+
+.password-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666; /* Optional: Set icon color */
+}
