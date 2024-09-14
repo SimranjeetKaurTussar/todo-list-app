@@ -35,12 +35,13 @@ const App = () => {
   }, [tasks]);
 
   // Add a new task
-  const addTask = (name, dueDate, category) => {
+  const addTask = (name, dueDate, dueTime, category) => {
     const newTask = {
       id: Date.now(),
       name,
       completed: false,
       dueDate,
+      dueTime,
       category,
     };
     setTasks([...tasks, newTask]);

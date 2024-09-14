@@ -10,7 +10,7 @@ const TaskItem = ({ task, toggleComplete, deleteTask, setEditTaskId }) => {
         onChange={() => toggleComplete(task.id)}
       />
       <span className={task.completed ? 'completed' : ''}>
-        {task.name} - {task.dueDate} - {task.category}
+        {task.name} - {task.dueDate} - {task.dueTime} - {task.category}
       </span>
       <button onClick={() => setEditTaskId(task.id)}>Edit</button>
       <button onClick={() => deleteTask(task.id)}>Delete</button>
